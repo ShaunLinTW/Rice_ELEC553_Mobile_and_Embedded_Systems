@@ -1,0 +1,15 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+    fragment@0 {
+        target-path = "/";
+        __overlay__ {
+            hl116_gpios {
+                compatible = "hl116,gpios";
+                led-gpios = <&gpio 5 0>;
+                button-gpios = <&gpio 6 0>;
+            };
+        };
+    };
+};

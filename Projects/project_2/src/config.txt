@@ -1,0 +1,2 @@
+# Costum device tree overlay for project 2
+dtoverlay=hl116_gpios

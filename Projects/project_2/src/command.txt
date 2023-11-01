@@ -1,0 +1,36 @@
+# Create overlay
+dtc -@ -I dts -O dtb -o hl116_gpios.dtbo hl116_gpios.dts
+sudo cp hl116_gpios.dtbo /boot/overlays/
+sudo nano /boot/config.txt
+dtoverlay= hl116_gpios
+sudo reboot
+
+# Check overlay
+dmesg | grep -i overlay
+sudo dtoverlay hl116_gpios
+
+ls /proc/device-tree
+ls /proc/device-tree/hl116_gpios
+cat /proc/device-tree/hl116_gpios/button-gpios
+cat /proc/device-tree/hl116_gpios/led-gpios
+cat /proc/device-tree/hl116_gpios/compatible
+cat /proc/device-tree/hl116_gpios/name
+
+# Create driver
+sudo make
+sudo modprobe -r gpiod_driver
+sudo cp gpiod_driver.ko /lib/modules/$(uname -r)/misc/
+sudo depmod
+sudo modprobe gpiod_driver
+
+tail -f /var/log/kern.log
+
+
+# Check insert module
+lsmod | grep gpiod_driver
+
+# Reset
+sudo rm /lib/modules/$(uname -r)/misc/gpiod_driver.ko	
+
+# Check GPIO
+sudo cat /sys/kernel/debug/gpio
